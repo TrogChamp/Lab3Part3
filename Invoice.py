@@ -9,19 +9,26 @@ class Invoice:
         self.items['discount'] = discount
         return self.items
 
-    def totalImpurePrice(self, products):
-        total_impure_price = 0
+    def ImpureFormula(self, products):
+        answer = 0
         for k, v in products.items():
-            total_impure_price += float(v['unit_price']) * int(v['qnt'])
-        total_impure_price = round(total_impure_price, 2)
+            answer += float(v['unit_price']) * int(v['qnt'])
+        return answer
+
+    def totalImpurePrice(self, products):
+        total_impure_price = round(self.ImpureFormula(products), 2)
         return total_impure_price
 
-    def totalDiscount(self, products):
-        total_discount = 0
+    def DcountFormula(self,products):
+        answer = 0
         for k, v in products.items():
-            total_discount += (int(v['qnt']) * float(v['unit_price'])) * float(v['discount']) / 100
-        total_discount = round(total_discount, 2)
+            answer += (int(v['qnt']) * float(v['unit_price'])) * float(v['discount']) / 100
+        return answer
+
+    def totalDiscount(self, products):
+        total_discount = round(self.DcountFormula(products), 2)
         return total_discount
+
 
     def totalPurePrice(self, products):
         total_pure_price = self.totalImpurePrice(products)-self.totalDiscount(products)
